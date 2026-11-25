@@ -252,7 +252,7 @@ footer a{color:var(--muted)}
       </div>
       <div class="mapbox" id="box">
         <svg id="map" role="img" data-i-aria="svgAria" aria-label="Mapa oficial de Leonida con las ubicaciones de los coches">
-          <image href="leonida.jpg" x="0" y="0" width="2805" height="3840"/>
+          <image href="leonida.webp" x="0" y="0" width="2805" height="3840"/>
           <g id="mk"></g>
         </svg>
         <div class="pop" id="pop" role="status"></div>
@@ -575,7 +575,7 @@ function stateMarkers(){
 }
 function showPop(car,s){
   const p=$("pop"); p.style.setProperty("--cc",colorOf(car));
-  p.innerHTML=`<img src="cars/${car.id}.jpg" alt=""><b><i></i>${car.name}</b>${TX(s)}<br><small>${s.src}${done[car.id]?t("gotTag"):""}</small>`;
+  p.innerHTML=`<img src="cars/${car.id}.webp" alt=""><b><i></i>${car.name}</b>${TX(s)}<br><small>${s.src}${done[car.id]?t("gotTag"):""}</small>`;
   popAt=s; p.classList.add("show"); placePop();
 }
 function hidePop(){popAt=null;$("pop").classList.remove("show")}
@@ -594,8 +594,8 @@ function card(car,i){
   const d=document.createElement("article");
   d.className="car rise"+(done[car.id]?" done":" open");d.tabIndex=0;d.dataset.car=car.id;d.style.setProperty("--cc",colorOf(car));d.style.setProperty("--i",i);
   let n=0;
-  d.innerHTML=`<div class="photo"><img src="cars/${car.id}.jpg" alt="${car.name}" loading="lazy" decoding="async" width="640" height="360"></div>
-    <div class="car-top"><img class="thumb" src="cars/${car.id}.jpg" alt="" loading="lazy" decoding="async" width="64" height="36"><span class="dot"></span><h3 class="name">${car.name}</h3>
+  d.innerHTML=`<div class="photo"><img src="cars/${car.id}.webp" alt="${car.name}" loading="lazy" decoding="async" width="640" height="360"></div>
+    <div class="car-top"><img class="thumb" src="cars/${car.id}.webp" alt="" loading="lazy" decoding="async" width="64" height="36"><span class="dot"></span><h3 class="name">${car.name}</h3>
     <button type="button" class="check" aria-pressed="${!!done[car.id]}" aria-label="${t("mark",car.name)}">${CHECK}</button></div>
     ${car.tag?`<div class="tag">${TAG(car)}</div>`:""}
     ${payHTML(car)}
