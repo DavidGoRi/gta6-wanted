@@ -159,12 +159,8 @@ ol.spots{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:9px}
 .pk.pj{background:color-mix(in srgb,var(--c2) 16%,transparent);color:var(--c2)}
 .bonus{color:var(--ok);font-weight:600}
 .pnote{color:var(--muted)}
-.paid{margin-left:auto;display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
-.paid input{width:96px;font:600 13px var(--body);font-variant-numeric:tabular-nums;color:var(--fg);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:5px 8px;text-align:right;transition:border-color .2s,box-shadow .2s}
-.paid input:focus{outline:none;border-color:var(--ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 20%,transparent)}
 .compact .car:not(.active) .pay{display:none}
-.earned span{color:var(--ok)}
-@media (max-width:640px){.progress{flex-wrap:wrap}.bar{flex-basis:100%}.paid{margin-left:0}}
+
 /* Fotos */
 .photo{margin:-14px -16px 12px;aspect-ratio:16/8;max-width:calc(100% + 32px);overflow:hidden;border-radius:15px 15px 0 0;background:linear-gradient(180deg,#e9ebf3,#d6d9e6);position:relative}
 .photo::after{content:"";position:absolute;inset:auto 0 0;height:40%;background:linear-gradient(transparent,color-mix(in srgb,var(--cc) 16%,transparent));pointer-events:none}
@@ -182,6 +178,8 @@ ol.spots{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:9px}
 .compact .car .photo{margin:-11px -14px 12px;max-width:calc(100% + 28px)}
 .pop img{width:calc(100% + 28px);margin:-12px -14px 10px;aspect-ratio:16/7;object-fit:cover;object-position:center 58%;border-radius:13px 13px 0 0;display:block;background:#dfe2ec}
 .compact .car{padding:11px 14px}
+.compact .car:not(.active) .tag{display:none}
+.compact .tag{color:var(--muted)}
 .compact .name{font-size:15px}
 .empty{margin:0;padding:16px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);text-align:center;font-size:14px}
 
@@ -237,7 +235,6 @@ footer a{color:var(--muted)}
     <div class="progress" aria-live="polite">
       <div class="bar"><i id="bar"></i></div>
       <div class="count"><span id="got">0</span> / <span id="total">0</span> <small data-i="collected">conseguidos</small></div>
-      <div class="count earned" data-i-title="earnedTitle" title="Suma de lo que has apuntado en cada ficha"><span id="paid-total">0 $</span> <small data-i="earned">cobrados</small></div>
     </div>
   </header>
 
@@ -285,7 +282,7 @@ footer a{color:var(--muted)}
   <div class="tips">
     <div class="tip rise" style="--i:3"><b>Cómo robarlos</b>Usa la llave clonada y entrégalos en el garaje de Randy. Casi todos llevan localizador: pierde a la policía antes de llegar.</div>
     <div class="tip rise" style="--i:4"><b>Si no aparece</b>Muchos salen al azar. Guarda y recarga la partida, o vuelve más tarde, para que cambien los coches aparcados.</div>
-    <div class="tip rise" style="--i:5"><b>Cobra más</b>Randy paga según el estado del coche. Repáralo en la gasolinera de enfrente del taller antes de entregarlo para llevarte el extra por coche intacto. Apunta en cada ficha lo que te pague.</div>
+    <div class="tip rise" style="--i:5"><b>Cobra más</b>Randy paga según el estado del coche. Repáralo en la gasolinera de enfrente del taller antes de entregarlo para llevarte el extra por coche intacto.</div>
     <div class="tip rise" style="--i:6"><b>Pistas de Randy</b>Mira Touch Pad › Robberies › Randy's Wish List. Randy manda pistas por mensaje y a veces en Leonida Auto World.</div>
   </div>
 
@@ -374,7 +371,6 @@ const CARS=[
  {id:"mamba",name:"Declasse Mamba GT",spots:[
    {x:2175,y:1603,t:"pin",txt:"Mansión vigilada en Leaf Links, Vice Beach. La llave está dentro.",en:"Guarded mansion in Leaf Links, Vice Beach. The key is inside.",src:PS+" & "+GH,best:true}]}
 ];
-const PENDING_START=["jugular","jubilee","banshee","thrax"];
 
 /* ---------- Pagos de Randy ----------
    ok = cifra publicada para ese coche; est = rango general de las guías; pj = lo que cobró un jugador (con daños) */
@@ -399,39 +395,35 @@ function payHTML(car){
   const amt=o.amt||L.est.amt, note=o.note!==undefined?o.note:(kind==="est"?L.est.note:""), bonus=o.bonus;
   return `<div class="pay"><span class="amt">${amt}</span><span class="pk ${kind}">${t("kind_"+kind)}</span>
     ${bonus?`<span class="bonus">${bonus}</span>`:""}${note?`<span class="pnote">${note}</span>`:""}
-    <label class="paid">${t("paid")} <input type="text" inputmode="numeric" id="paid-${car.id}" placeholder="—" value="${paid[car.id]?fmt(paid[car.id]):""}" aria-label="${t("paidAria",car.name)}"></label></div>`;
-}
-function totalPaid(){
-  const t=Object.values(paid).reduce((a,b)=>a+b,0);
-  $("paid-total").textContent=fmt(t);
+</div>`;
 }
 
 /* ---------- Idioma ---------- */
 const I18N={
   es:{title:"Lista WANTED de Randy",eyebrow:"GTA VI · Robos · Lista de Randy",h1:"Lista WANTED de Randy",
-    themeAria:"Cambiar entre tema claro y oscuro",langAria:"Idioma",collected:"conseguidos",earned:"cobrados",earnedTitle:"Suma de lo que has apuntado en cada ficha",
+    themeAria:"Cambiar entre tema claro y oscuro",langAria:"Idioma",collected:"conseguidos",
     mapAria:"Mapa",showDone:"Conseguidos",svgAria:"Mapa oficial de Leonida con las ubicaciones de los coches",
     zin:"Acercar",zout:"Alejar",zfit:"Ver todo Leonida",hPin:"Sitio concreto",hArea:"Aparece al azar en la zona",hDrag:"Arrastra para mover · rueda o pellizco para acercar",
     search:"Buscar coche o zona…",filter:"Filtrar",fAll:"Todos",fPending:"Te faltan",fDone:"Conseguidos",
     secPending:"Te faltan",secDone:"Conseguidos",allDone:"Lista completa. ¡Buen trabajo!",noMatch:q=>`Ningún coche coincide con “${q}”.`,noneDone:"Aún no has conseguido ninguno.",
-    best:"más fiable",gotTag:" · conseguido",paid:"Te pagó",paidAria:n=>`Lo que te pagó Randy por ${n}`,mark:n=>`Marcar ${n} como conseguido`,
+    best:"más fiable",gotTag:" · conseguido",mark:n=>`Marcar ${n} como conseguido`,
     kind_ok:"Confirmado",kind_est:"Estimado",kind_pj:"Jugador",kind_none:"Sin publicar",
     tips:[["Cómo robarlos","Usa la llave clonada y entrégalos en el garaje de Randy. Casi todos llevan localizador: pierde a la policía antes de llegar."],
       ["Si no aparece","Muchos salen al azar. Guarda y recarga la partida, o vuelve más tarde, para que cambien los coches aparcados."],
-      ["Cobra más","Randy paga según el estado del coche. Repáralo en la gasolinera de enfrente del taller antes de entregarlo para llevarte el extra por coche intacto. Apunta en cada ficha lo que te pague."],
+      ["Cobra más","Randy paga según el estado del coche. Repáralo en la gasolinera de enfrente del taller antes de entregarlo para llevarte el extra por coche intacto."],
       ["Pistas de Randy","Mira Touch Pad › Robberies › Randy's Wish List. Randy manda pistas por mensaje y a veces en Leonida Auto World."]],
     footer:"Datos de guías publicadas en noviembre de 2026; no coinciden en todo y aún se actualizan. Fuentes:",footer2:"Mapa: Rockstar Games. Fotos:",footer3:"Proyecto de fans sin relación con Rockstar Games."},
   en:{title:"Randy's WANTED List",eyebrow:"GTA VI · Robberies · Randy's Wish List",h1:"Randy's WANTED List",
-    themeAria:"Toggle light and dark theme",langAria:"Language",collected:"collected",earned:"earned",earnedTitle:"Sum of what you've logged on each card",
+    themeAria:"Toggle light and dark theme",langAria:"Language",collected:"collected",
     mapAria:"Map",showDone:"Collected",svgAria:"Official map of Leonida with the car locations",
     zin:"Zoom in",zout:"Zoom out",zfit:"Show all of Leonida",hPin:"Exact spot",hArea:"Random spawn in the area",hDrag:"Drag to move · scroll or pinch to zoom",
     search:"Search car or area…",filter:"Filter",fAll:"All",fPending:"Missing",fDone:"Collected",
     secPending:"Still missing",secDone:"Collected",allDone:"List complete. Nice work!",noMatch:q=>`No car matches “${q}”.`,noneDone:"You haven't collected any yet.",
-    best:"most reliable",gotTag:" · collected",paid:"Paid",paidAria:n=>`What Randy paid you for ${n}`,mark:n=>`Mark ${n} as collected`,
+    best:"most reliable",gotTag:" · collected",mark:n=>`Mark ${n} as collected`,
     kind_ok:"Confirmed",kind_est:"Estimate",kind_pj:"Player",kind_none:"Unpublished",
     tips:[["How to steal them","Use the cloned key and deliver them to Randy's garage. Almost all of them have a tracker: lose the cops before you arrive."],
       ["If it doesn't spawn","Many spawn at random. Save and reload, or come back later, to refresh the parked cars."],
-      ["Earn more","Randy pays based on the car's condition. Repair it at the gas station across from the garage before delivering to get the undamaged bonus. Log what he pays you on each card."],
+      ["Earn more","Randy pays based on the car's condition. Repair it at the gas station across from the garage before delivering to get the undamaged bonus."],
       ["Randy's hints","Check Touch Pad › Robberies › Randy's Wish List. Randy texts hints and sometimes leaves them at Leonida Auto World."]],
     footer:"Data from guides published in November 2026; they don't fully agree and are still being updated. Sources:",footer2:"Map: Rockstar Games. Photos:",footer3:"Fan project, not affiliated with Rockstar Games."}
 };
@@ -458,15 +450,14 @@ function setLang(l){
 /* ---------- Estado ---------- */
 const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 let done=store.get("wanted-done-v2");
-if(!done){done={};CARS.forEach(c=>{if(!PENDING_START.includes(c.id))done[c.id]=true})}
-const paid=store.get("wanted-paid")||{};
+if(!done)done={};
 const sdSaved=store.get("wanted-show-done-v2");
 let showDone=sdSaved===null?true:!!sdSaved, active=null, filter="all", query="";
 const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $=id=>document.getElementById(id);
 const NS="http://www.w3.org/2000/svg";
 const el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
-const colorOf=c=>`var(${c.color||"--c5"})`;
+const colorOf=c=>done[c.id]?"var(--c5)":`var(--c${CARS.indexOf(c)%4+1})`;
 const norm=s=>s.toLowerCase().normalize("NFD").replace(/\p{M}/gu,"");
 
 /* ---------- Mapa: vista, animación, arrastre y zoom ---------- */
@@ -611,10 +602,6 @@ function card(car,i){
     <div class="more"><div><ol class="spots">${car.spots.map((s,si)=>`<li ${s.t!=="none"?`data-s="${si}"`:""}><span class="n ${s.t==="area"?"a":s.t==="none"?"i":""}">${s.t==="none"?"i":++n}</span>
       <div>${TX(s)}${s.best?`<span class="best">${t("best")}</span>`:""} <span class="src">· ${s.src}</span></div></li>`).join("")}</ol></div></div>`;
   d.querySelectorAll("img").forEach(im=>{const ok=()=>im.classList.add("ld");im.complete?ok():im.addEventListener("load",ok);im.addEventListener("error",()=>im.closest(".photo,.thumb")?.remove?.()||im.remove())});
-  const pin=d.querySelector(".paid input");
-  ["click","keydown","pointerdown"].forEach(ev=>pin.addEventListener(ev,e=>e.stopPropagation()));
-  pin.addEventListener("input",()=>{const v=parseInt(pin.value.replace(/\D/g,""),10);if(v>0)paid[car.id]=v;else delete paid[car.id];store.set("wanted-paid",paid);totalPaid()});
-  pin.addEventListener("blur",()=>{pin.value=paid[car.id]?fmt(paid[car.id]):""});
   d.querySelector(".check").addEventListener("click",e=>{
     e.stopPropagation();done[car.id]=!done[car.id];store.set("wanted-done-v2",done);
     e.currentTarget.setAttribute("aria-pressed",!!done[car.id]);
@@ -681,7 +668,7 @@ function counters(){
   const from=shownGot, t0=performance.now();
   const tick=now=>{const t=Math.min(1,(now-t0)/600);$("got").textContent=Math.round(from+(n-from)*t);if(t<1)requestAnimationFrame(tick)};
   if(REDUCED)$("got").textContent=n;else requestAnimationFrame(tick);
-  shownGot=n; totalPaid();
+  shownGot=n;
 }
 function refresh(full=true){
   if(full){renderList();counters()}

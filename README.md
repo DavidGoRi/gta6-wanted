@@ -5,7 +5,7 @@ A fan-made web page to find every car on Randy's Wish List in GTA VI: the offici
 **Open it:** https://davidgori.github.io/gta6-wanted/
 
 - Interactive map: drag, scroll or pinch to zoom, and tap a marker for details.
-- Mark cars as collected and log what Randy paid you; everything stays on your device.
+- Mark cars as collected; everything stays on your device.
 - Search, filters, light/dark theme and an English/Spanish language switch.
 
 Data comes from guides published in November 2026 (Game Rant, Push Square, GamesHorizon, Output Lag); they don't fully agree and are still being updated. Map: Rockstar Games. Car photos: GTABase. Non-commercial fan project, not affiliated with Rockstar Games.
