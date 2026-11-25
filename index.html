@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0c1019">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Lista WANTED de Randy</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
@@ -142,6 +145,79 @@ ol.spots{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:9px}
 .n.i{background:var(--surface-2);color:var(--muted)}
 .src{color:var(--muted);font-size:12px}
 .best{display:inline-block;font:600 10.5px var(--body);color:var(--cc);background:color-mix(in srgb,var(--cc) 14%,transparent);padding:1px 7px;border-radius:99px;margin-left:4px;vertical-align:1px}
+/* ===== Efectos visuales ===== */
+@keyframes sube{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* Logo: chincheta que bota, estrella que late, trazo que la recorre y onda en el suelo */
+.brand{display:flex;align-items:center;gap:14px;color:inherit;text-decoration:none;min-width:0;border-radius:16px}
+.brand:focus-visible{outline:2px solid var(--c1);outline-offset:4px}
+.logo-a{width:56px;height:56px;flex:none;overflow:visible;filter:drop-shadow(0 8px 18px color-mix(in srgb,var(--c4) 45%,transparent));transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.lg-bg{animation:lgHue 9s ease-in-out infinite alternate}
+@keyframes lgHue{to{filter:hue-rotate(-28deg) saturate(1.15)}}
+.lg-shine{animation:lgShine 4.5s ease-in-out infinite}
+@keyframes lgShine{0%,55%{transform:rotate(22deg) translateX(0)}85%,100%{transform:rotate(22deg) translateX(120px)}}
+.lg-pinG{transform-box:fill-box;transform-origin:50% 100%;animation:lgBota 3s cubic-bezier(.3,0,.4,1) infinite}
+@keyframes lgBota{0%,62%,100%{transform:none}70%{transform:translateY(-5px) scaleY(1.04)}80%{transform:translateY(0) scale(1.06,.94)}88%{transform:translateY(-1.5px)}}
+.lg-trace{stroke-dasharray:100;stroke-dashoffset:100;animation:lgTrazo 3s cubic-bezier(.55,0,.35,1) infinite}
+@keyframes lgTrazo{0%{stroke-dashoffset:100}40%,62%{stroke-dashoffset:0}100%{stroke-dashoffset:-100}}
+.lg-star{transform-box:fill-box;transform-origin:center;animation:lgEstrella 3s ease-in-out infinite}
+@keyframes lgEstrella{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.22) rotate(36deg)}}
+.lg-ping{transform-box:fill-box;transform-origin:center;opacity:0;animation:lgPing 3s ease-out infinite}
+@keyframes lgPing{0%,74%{transform:scale(.4);opacity:0}78%{opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.brand:hover .logo-a{transform:rotate(-7deg) scale(1.07)}
+.brand:hover .lg-trace{animation-duration:1.3s}
+.brand.go .logo-a{animation:logoGo .7s cubic-bezier(.3,1.5,.5,1)}
+@keyframes logoGo{0%{transform:none}30%{transform:scale(.8) rotate(-12deg)}65%{transform:scale(1.16) rotate(6deg)}100%{transform:none}}
+/* Título con un destello que lo recorre */
+h1{background:linear-gradient(90deg,var(--fg) 40%,var(--c3) 47%,var(--c4) 50%,var(--c1) 53%,var(--fg) 60%);background-size:280% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;animation:brilloT 7s ease-in-out infinite}
+@keyframes brilloT{0%,70%{background-position:100% 0}100%{background-position:0 0}}
+/* Luces que flotan detrás de la página */
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5}
+.aurora i:nth-child(1){width:420px;height:420px;left:-120px;top:-180px;background:color-mix(in srgb,var(--c3) 30%,transparent);animation:flota 16s ease-in-out infinite alternate}
+.aurora i:nth-child(2){width:380px;height:380px;right:-140px;top:-120px;background:color-mix(in srgb,var(--c1) 28%,transparent);animation:flota 21s ease-in-out infinite alternate-reverse}
+.aurora i:nth-child(3){width:340px;height:340px;left:40%;top:42vh;background:color-mix(in srgb,var(--c4) 18%,transparent);animation:flota 26s ease-in-out infinite alternate}
+@keyframes flota{to{transform:translate(-70px,56px) scale(1.2)}}
+.wrap{position:relative;z-index:1}
+/* Barra de progreso al desplazarse */
+.scrollbar{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);height:3px;z-index:60;pointer-events:none;background:linear-gradient(90deg,var(--c3),var(--c4),var(--c1));transform-origin:left center;transform:scaleX(0);border-radius:0 3px 3px 0}
+/* Onda al pulsar */
+.chip,.tabs button,.lang button,.icon-btn,.ctrls button,.check,.car,.tip{position:relative;overflow:hidden}
+.rip{position:absolute;border-radius:50%;background:currentColor;opacity:.18;transform:scale(0);animation:rip .65s cubic-bezier(.2,.7,.3,1) forwards;pointer-events:none}
+.chip[aria-pressed="true"] .rip,.lang button[aria-pressed="true"] .rip,.check[aria-pressed="true"] .rip{background:#fff;opacity:.35}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+/* Luz que sigue al puntero en las fichas y consejos */
+.car,.tip{background-image:radial-gradient(260px circle at var(--mx,-400px) var(--my,-400px),color-mix(in srgb,var(--cc,var(--c4)) 14%,transparent),transparent 70%)}
+.car:hover{box-shadow:0 18px 34px -22px color-mix(in srgb,var(--cc) 80%,#000)}
+.tip{transition:transform .25s var(--ease),box-shadow .25s,background-color .35s}
+.tip:hover{box-shadow:0 16px 30px -22px color-mix(in srgb,var(--c4) 70%,#000)}
+/* Destello que cruza la foto al pasar el ratón */
+.photo::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-120%);pointer-events:none}
+.car:hover .photo::before{transform:translateX(120%);transition:transform .9s ease}
+/* Marcar como conseguido: la ficha late y salta confeti */
+.car.won{animation:acierto .6s cubic-bezier(.3,1.5,.5,1)}
+@keyframes acierto{0%{box-shadow:0 0 0 0 transparent}40%{transform:scale(1.025);box-shadow:0 0 0 8px color-mix(in srgb,var(--ok) 28%,transparent)}100%{transform:none;box-shadow:0 0 0 0 transparent}}
+.check[aria-pressed="true"]{animation:salta .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes salta{40%{transform:scale(1.25) rotate(-8deg)}}
+.confeti{position:fixed;inset:0;pointer-events:none;z-index:95;overflow:hidden}
+.confeti i{position:absolute;width:8px;height:12px;border-radius:2px;animation:confeti 1.6s cubic-bezier(.15,.7,.3,1) forwards}
+@keyframes confeti{0%{transform:translate(-50%,-50%) scale(.4);opacity:1}70%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy) + 150px)) rotate(var(--r));opacity:0}}
+.bar.bump{animation:brilla 1s ease-out}
+@keyframes brilla{from{box-shadow:0 0 0 0 color-mix(in srgb,var(--c4) 60%,transparent)}to{box-shadow:0 0 0 10px transparent}}
+/* Buscador con halo y lupa que salta */
+.search svg{transition:color .2s,transform .25s cubic-bezier(.3,1.6,.5,1)}
+.search:focus-within svg{color:var(--c1);transform:translateY(-50%) scale(1.15)}
+/* Títulos de sección con una línea que se dibuja */
+.sec::after{transform-origin:left center;animation:linea .7s .2s cubic-bezier(.2,.8,.2,1) both;background:linear-gradient(90deg,var(--line),transparent)}
+@keyframes linea{from{transform:scaleX(0)}}
+/* Aparición al desplazarse */
+.rv:not(.in){opacity:0;animation:none}
+.rv.in{animation:sube .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0) * 70ms)}
+/* Contadores de los filtros que botan al cambiar */
+.chip b.tick{display:inline-block;animation:salta .45s cubic-bezier(.3,1.6,.5,1)}
+/* Cambio de tema con un círculo que se expande */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-new(root){z-index:2}
+@media (max-width:640px){.logo-a{width:44px;height:44px}.brand{gap:11px}h1{font-size:24px}.eyebrow{font-size:10px;letter-spacing:.1em}header{align-items:center}.brand{grid-column:1/-1}.progress{grid-column:1;grid-row:2;flex-wrap:wrap;gap:6px 12px}.bar{flex-basis:100%}.hd-right{grid-column:2;grid-row:2}}
 /* Selector de idioma */
 .lang{display:flex;padding:3px;gap:2px;border:1px solid var(--line);border-radius:12px;background:var(--surface);transition:background-color .35s}
 .lang button{border:0;background:none;color:var(--muted);font:600 12px var(--mono);letter-spacing:.06em;padding:0 10px;height:32px;border-radius:9px;cursor:pointer;transition:background-color .25s,color .25s,transform .2s var(--ease)}
@@ -220,12 +296,31 @@ footer a{color:var(--muted)}
 </head>
 <body>
 
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="scrollbar" id="scrollbar" aria-hidden="true"></div>
 <div class="wrap">
   <header class="rise">
-    <div>
+    <a class="brand" href="#" id="brand" data-i-aria="top" aria-label="Volver arriba">
+      <svg class="logo-a" viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id="lgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5d97"/><stop offset=".55" stop-color="#a98bff"/><stop offset="1" stop-color="#3cc6e8"/></linearGradient>
+          <clipPath id="lgC"><rect x="2" y="2" width="60" height="60" rx="16"/></clipPath>
+        </defs>
+        <rect class="lg-bg" x="2" y="2" width="60" height="60" rx="16" fill="url(#lgG)"/>
+        <g clip-path="url(#lgC)"><rect class="lg-shine" x="-40" y="-10" width="18" height="90" fill="#fff" opacity=".28" transform="rotate(22)"/></g>
+        <circle class="lg-ping" cx="32" cy="50" r="6" fill="none" stroke="#fff" stroke-width="2"/>
+        <ellipse cx="32" cy="52" rx="8" ry="2.4" fill="#0c1019" opacity=".22"/>
+        <g class="lg-pinG">
+          <path class="lg-pin" d="M32 9.5c-8.6 0-15.5 6.7-15.5 15.1C16.5 36 32 51 32 51s15.5-15 15.5-26.4C47.5 16.2 40.6 9.5 32 9.5z" fill="#fff"/>
+          <path class="lg-trace" pathLength="100" d="M32 9.5c-8.6 0-15.5 6.7-15.5 15.1C16.5 36 32 51 32 51s15.5-15 15.5-26.4C47.5 16.2 40.6 9.5 32 9.5z" fill="none" stroke="#ffe36e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path class="lg-star" d="M32 16.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="url(#lgG)"/>
+        </g>
+      </svg>
+      <div>
       <div class="eyebrow" data-i="eyebrow">GTA VI · Robos · Lista de Randy</div>
       <h1 data-i="h1">Lista WANTED de Randy</h1>
-    </div>
+      </div>
+    </a>
     <div class="hd-right">
       <div class="lang" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" aria-pressed="true">ES</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
       <button class="icon-btn" id="theme" type="button" data-i-aria="themeAria" aria-label="Cambiar entre tema claro y oscuro">
@@ -401,7 +496,7 @@ function payHTML(car){
 /* ---------- Idioma ---------- */
 const I18N={
   es:{title:"Lista WANTED de Randy",eyebrow:"GTA VI · Robos · Lista de Randy",h1:"Lista WANTED de Randy",
-    themeAria:"Cambiar entre tema claro y oscuro",langAria:"Idioma",collected:"conseguidos",
+    themeAria:"Cambiar entre tema claro y oscuro",top:"Volver arriba",langAria:"Idioma",collected:"conseguidos",
     mapAria:"Mapa",showDone:"Conseguidos",svgAria:"Mapa oficial de Leonida con las ubicaciones de los coches",
     zin:"Acercar",zout:"Alejar",zfit:"Ver todo Leonida",hPin:"Sitio concreto",hArea:"Aparece al azar en la zona",hDrag:"Arrastra para mover · rueda o pellizco para acercar",
     search:"Buscar coche o zona…",filter:"Filtrar",fAll:"Todos",fPending:"Te faltan",fDone:"Conseguidos",
@@ -414,7 +509,7 @@ const I18N={
       ["Pistas de Randy","Mira Touch Pad › Robberies › Randy's Wish List. Randy manda pistas por mensaje y a veces en Leonida Auto World."]],
     footer:"Datos de guías publicadas en noviembre de 2026; no coinciden en todo y aún se actualizan. Fuentes:",footer2:"Mapa: Rockstar Games. Fotos:",footer3:"Proyecto de fans sin relación con Rockstar Games."},
   en:{title:"Randy's WANTED List",eyebrow:"GTA VI · Robberies · Randy's Wish List",h1:"Randy's WANTED List",
-    themeAria:"Toggle light and dark theme",langAria:"Language",collected:"collected",
+    themeAria:"Toggle light and dark theme",top:"Back to top",langAria:"Language",collected:"collected",
     mapAria:"Map",showDone:"Collected",svgAria:"Official map of Leonida with the car locations",
     zin:"Zoom in",zout:"Zoom out",zfit:"Show all of Leonida",hPin:"Exact spot",hArea:"Random spawn in the area",hDrag:"Drag to move · scroll or pinch to zoom",
     search:"Search car or area…",filter:"Filter",fAll:"All",fPending:"Missing",fDone:"Collected",
@@ -605,6 +700,9 @@ function card(car,i){
   d.querySelector(".check").addEventListener("click",e=>{
     e.stopPropagation();done[car.id]=!done[car.id];store.set("wanted-done-v2",done);
     e.currentTarget.setAttribute("aria-pressed",!!done[car.id]);
+    if(done[car.id]){const r=e.currentTarget.getBoundingClientRect();d.classList.add("won");confeti(r.left+r.width/2,r.top+r.height/2);
+      const bar=document.querySelector(".bar");bar.classList.remove("bump");void bar.offsetWidth;bar.classList.add("bump");
+      if(CARS.every(c=>done[c.id]))setTimeout(()=>{confeti(innerWidth/2,innerHeight*.35,90);setTimeout(()=>confeti(innerWidth*.25,innerHeight*.4,50),250);setTimeout(()=>confeti(innerWidth*.75,innerHeight*.4,50),450)},300)}
     setTimeout(()=>refresh(true),REDUCED?0:380);
   });
   d.querySelectorAll("li[data-s]").forEach(li=>li.addEventListener("click",e=>{
@@ -664,7 +762,7 @@ let shownGot=0;
 function counters(){
   const n=CARS.filter(c=>done[c.id]).length, T=CARS.length;
   $("total").textContent=T; $("bar").style.width=(n/T*100)+"%";
-  $("n-all").textContent=T;$("n-pending").textContent=T-n;$("n-done").textContent=n;
+  [["n-all",T],["n-pending",T-n],["n-done",n]].forEach(([id,v])=>{const b=$(id);if(b.textContent!==String(v)&&b.textContent!==""&&!REDUCED){b.classList.remove("tick");void b.offsetWidth;b.classList.add("tick")}b.textContent=v});
   const from=shownGot, t0=performance.now();
   const tick=now=>{const t=Math.min(1,(now-t0)/600);$("got").textContent=Math.round(from+(n-from)*t);if(t<1)requestAnimationFrame(tick)};
   if(REDUCED)$("got").textContent=n;else requestAnimationFrame(tick);
@@ -685,9 +783,51 @@ sd.addEventListener("change",()=>{showDone=sd.checked;store.set("wanted-show-don
 
 const root=document.documentElement;
 const saved=store.get("wanted-theme");if(saved)root.dataset.theme=saved;
-$("theme").onclick=()=>{
-  const dark=root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
-  root.dataset.theme=dark?"light":"dark";store.set("wanted-theme",root.dataset.theme)};
+$("theme").onclick=e=>{
+  const cambia=()=>{const dark=root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme=dark?"light":"dark";store.set("wanted-theme",root.dataset.theme)};
+  if(!document.startViewTransition||REDUCED){cambia();return}
+  const x=e.clientX||innerWidth-40,y=e.clientY||40,rad=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+  try{const vt=document.startViewTransition(cambia);
+    vt.ready.then(()=>root.animate({clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${rad}px at ${x}px ${y}px)`]},{duration:560,easing:"cubic-bezier(.4,0,.2,1)",pseudoElement:"::view-transition-new(root)"})).catch(()=>{});
+  }catch(err){cambia()}
+};
+
+/* ---------- Efectos ---------- */
+// Onda al pulsar
+document.addEventListener("pointerdown",e=>{
+  if(REDUCED||e.button>0)return;
+  const b=e.target.closest(".chip,.tabs button,.lang button,.icon-btn,.ctrls button,.check,.car");if(!b)return;
+  if(b.classList.contains("car")&&e.target.closest(".check,li[data-s]"))return;
+  const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.2,sp=document.createElement("span");
+  sp.className="rip";sp.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;
+  b.appendChild(sp);setTimeout(()=>sp.remove(),700);
+},{passive:true});
+// Luz que sigue al puntero
+document.addEventListener("pointermove",e=>{
+  const c=e.target.closest&&e.target.closest(".car,.tip");if(!c)return;
+  const r=c.getBoundingClientRect();c.style.setProperty("--mx",(e.clientX-r.left)+"px");c.style.setProperty("--my",(e.clientY-r.top)+"px");
+},{passive:true});
+// El logo salta y te lleva arriba
+$("brand").addEventListener("click",e=>{e.preventDefault();const b=e.currentTarget;b.classList.remove("go");void b.offsetWidth;b.classList.add("go");setTimeout(()=>b.classList.remove("go"),750);scrollTo({top:0,behavior:REDUCED?"auto":"smooth"})});
+// Barra de progreso al desplazarse
+const sbar=$("scrollbar");
+function pintaScroll(){const h=document.documentElement,max=h.scrollHeight-innerHeight;sbar.style.transform=`scaleX(${max>0?Math.min(1,scrollY/max):0})`}
+addEventListener("scroll",pintaScroll,{passive:true});addEventListener("resize",pintaScroll,{passive:true});pintaScroll();
+// Aparición al desplazarse (consejos y pie)
+function revelar(){document.querySelectorAll(".rv:not(.in)").forEach(x=>{if(x.getBoundingClientRect().top<innerHeight*0.94)x.classList.add("in")})}
+if(!REDUCED){document.querySelectorAll(".tip,footer").forEach((x,k)=>{x.classList.remove("rise");x.style.setProperty("--i",k);if(x.getBoundingClientRect().top>innerHeight)x.classList.add("rv")})}
+addEventListener("scroll",revelar,{passive:true});addEventListener("resize",revelar,{passive:true});
+// Confeti
+function confeti(x,y,n=26,cols){
+  if(REDUCED)return;
+  const cs=getComputedStyle(root), pal=cols||["--c1","--c2","--c3","--c4","--ok"].map(v=>cs.getPropertyValue(v).trim());
+  const box=document.createElement("div");box.className="confeti";
+  for(let i=0;i<n;i++){const p=document.createElement("i"),a=Math.random()*Math.PI*2,v=60+Math.random()*(n>40?260:140);
+    p.style.cssText=`left:${x}px;top:${y}px;background:${pal[i%pal.length]};--dx:${Math.cos(a)*v}px;--dy:${Math.sin(a)*v-60}px;--r:${(Math.random()*720-360)|0}deg;animation-delay:${Math.random()*80}ms`;
+    box.appendChild(p)}
+  document.body.appendChild(box);setTimeout(()=>box.remove(),1900);
+}
 
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
 applyStatic();
