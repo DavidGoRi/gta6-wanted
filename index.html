@@ -142,6 +142,15 @@ ol.spots{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:9px}
 .n.i{background:var(--surface-2);color:var(--muted)}
 .src{color:var(--muted);font-size:12px}
 .best{display:inline-block;font:600 10.5px var(--body);color:var(--cc);background:color-mix(in srgb,var(--cc) 14%,transparent);padding:1px 7px;border-radius:99px;margin-left:4px;vertical-align:1px}
+/* Selector de idioma */
+.lang{display:flex;padding:3px;gap:2px;border:1px solid var(--line);border-radius:12px;background:var(--surface);transition:background-color .35s}
+.lang button{border:0;background:none;color:var(--muted);font:600 12px var(--mono);letter-spacing:.06em;padding:0 10px;height:32px;border-radius:9px;cursor:pointer;transition:background-color .25s,color .25s,transform .2s var(--ease)}
+.lang button:hover{color:var(--fg)}
+.lang button:active{transform:scale(.92)}
+.lang button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.lang button:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+@keyframes swap{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+.wrap.swap .side,.wrap.swap .tips,.wrap.swap footer,.wrap.swap header h1,.wrap.swap .eyebrow{animation:swap .45s var(--ease)}
 /* Pagos */
 .pay{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:10px;font-size:12.5px}
 .amt{font:700 16px var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
@@ -216,23 +225,24 @@ footer a{color:var(--muted)}
 <div class="wrap">
   <header class="rise">
     <div>
-      <div class="eyebrow">GTA VI · Robos · Lista de Randy</div>
-      <h1>Lista WANTED de Randy</h1>
+      <div class="eyebrow" data-i="eyebrow">GTA VI · Robos · Lista de Randy</div>
+      <h1 data-i="h1">Lista WANTED de Randy</h1>
     </div>
     <div class="hd-right">
-      <button class="icon-btn" id="theme" type="button" aria-label="Cambiar entre tema claro y oscuro">
+      <div class="lang" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" aria-pressed="true">ES</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
+      <button class="icon-btn" id="theme" type="button" data-i-aria="themeAria" aria-label="Cambiar entre tema claro y oscuro">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       </button>
     </div>
     <div class="progress" aria-live="polite">
       <div class="bar"><i id="bar"></i></div>
-      <div class="count"><span id="got">0</span> / <span id="total">0</span> <small>conseguidos</small></div>
-      <div class="count earned" title="Suma de lo que has apuntado en cada ficha"><span id="paid-total">0 $</span> <small>cobrados</small></div>
+      <div class="count"><span id="got">0</span> / <span id="total">0</span> <small data-i="collected">conseguidos</small></div>
+      <div class="count earned" data-i-title="earnedTitle" title="Suma de lo que has apuntado en cada ficha"><span id="paid-total">0 $</span> <small data-i="earned">cobrados</small></div>
     </div>
   </header>
 
   <div class="grid">
-    <section class="panel mappanel rise" style="--i:1" aria-label="Mapa">
+    <section class="panel mappanel rise" style="--i:1" data-i-aria="mapAria" aria-label="Mapa">
       <div class="maphead">
         <div class="tabs" role="tablist" id="tabs">
           <span class="ind" id="ind"></span>
@@ -241,31 +251,31 @@ footer a{color:var(--muted)}
           <button role="tab" data-view="capri" aria-selected="false" type="button">Capri</button>
           <button role="tab" data-view="all" aria-selected="false" type="button">Leonida</button>
         </div>
-        <label class="switch"><input type="checkbox" id="show-done"> Conseguidos</label>
+        <label class="switch"><input type="checkbox" id="show-done"> <span data-i="showDone">Conseguidos</span></label>
       </div>
       <div class="mapbox" id="box">
-        <svg id="map" role="img" aria-label="Mapa oficial de Leonida con las ubicaciones de los coches">
+        <svg id="map" role="img" data-i-aria="svgAria" aria-label="Mapa oficial de Leonida con las ubicaciones de los coches">
           <image href="leonida.jpg" x="0" y="0" width="2805" height="3840"/>
           <g id="mk"></g>
         </svg>
         <div class="pop" id="pop" role="status"></div>
         <div class="ctrls">
-          <button type="button" id="zin" aria-label="Acercar">+</button>
-          <button type="button" id="zout" aria-label="Alejar">−</button>
-          <button type="button" id="zfit" aria-label="Ver todo Leonida"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+          <button type="button" id="zin" data-i-aria="zin" aria-label="Acercar">+</button>
+          <button type="button" id="zout" data-i-aria="zout" aria-label="Alejar">−</button>
+          <button type="button" id="zfit" data-i-aria="zfit" aria-label="Ver todo Leonida"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
         </div>
       </div>
-      <div class="hint"><span><i class="pin-ico"></i>Sitio concreto</span><span><i class="area-ico"></i>Aparece al azar en la zona</span><span>Arrastra para mover · rueda o pellizco para acercar</span></div>
+      <div class="hint"><span><i class="pin-ico"></i><span data-i="hPin">Sitio concreto</span></span><span><i class="area-ico"></i><span data-i="hArea">Aparece al azar en la zona</span></span><span data-i="hDrag">Arrastra para mover · rueda o pellizco para acercar</span></div>
     </section>
 
     <div class="side">
       <div class="tools rise" style="--i:2">
         <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           <input id="q" type="search" placeholder="Buscar coche o zona…" autocomplete="off" aria-label="Buscar coche o zona"></label>
-        <div class="chips" role="group" aria-label="Filtrar">
-          <button class="chip" type="button" data-f="all" aria-pressed="true">Todos<b id="n-all"></b></button>
-          <button class="chip" type="button" data-f="pending" aria-pressed="false">Te faltan<b id="n-pending"></b></button>
-          <button class="chip" type="button" data-f="done" aria-pressed="false">Conseguidos<b id="n-done"></b></button>
+        <div class="chips" role="group" data-i-aria="filter" aria-label="Filtrar">
+          <button class="chip" type="button" data-f="all" aria-pressed="true"><span data-i="fAll">Todos</span><b id="n-all"></b></button>
+          <button class="chip" type="button" data-f="pending" aria-pressed="false"><span data-i="fPending">Te faltan</span><b id="n-pending"></b></button>
+          <button class="chip" type="button" data-f="done" aria-pressed="false"><span data-i="fDone">Conseguidos</span><b id="n-done"></b></button>
         </div>
       </div>
       <div id="list" class="side"></div>
@@ -279,116 +289,170 @@ footer a{color:var(--muted)}
     <div class="tip rise" style="--i:6"><b>Pistas de Randy</b>Mira Touch Pad › Robberies › Randy's Wish List. Randy manda pistas por mensaje y a veces en Leonida Auto World.</div>
   </div>
 
-  <footer>Datos de guías publicadas en noviembre de 2026; no coinciden en todo y aún se actualizan. Fuentes:
+  <footer><span data-i="footer">Datos de guías publicadas en noviembre de 2026; no coinciden en todo y aún se actualizan. Fuentes:</span>
     <a href="https://gamerant.com/gta-6-all-randy-wish-list-vehicles-locations/">Game Rant</a> ·
     <a href="https://www.pushsquare.com/guides/gta-6-randys-wish-list-vehicle-locations">Push Square</a> ·
     <a href="https://gameshorizon.com/guides/gta-6-all-randys-wishlist-cars-locations/">GamesHorizon</a> ·
-    <a href="https://outputlag.com/guides/gta-6-randy-wishlist-cars/">Output Lag</a>. Mapa: Rockstar Games. Fotos: <a href="https://www.gtabase.com/gta-6/vehicles/">GTABase</a>. Uso personal.</footer>
+    <a href="https://outputlag.com/guides/gta-6-randy-wishlist-cars/">Output Lag</a>. <span data-i="footer2">Mapa: Rockstar Games. Fotos:</span> <a href="https://www.gtabase.com/gta-6/vehicles/">GTABase</a>. <span data-i="footer3">Proyecto de fans sin relación con Rockstar Games.</span></footer>
 </div>
 
 <script>
 const GR="Game Rant",PS="Push Square",GH="GamesHorizon",OL="Output Lag";
 const CAPRI_N={x:795,y:1985,t:"area",r:90};
 const CARS=[
- {id:"jugular",name:"Ocelot Jugular",color:"--c1",tag:"Lugar casi fijo",spots:[
-   {x:1830,y:1548,t:"pin",txt:"Garaje en Belville, al norte del Druthers State Bank, cerca del edificio Cellerica (Chastity Ave).",src:PS,best:true},
-   {x:2415,y:1965,t:"pin",txt:"Delante de la tienda BITE, junto a Easy Electronics, al norte de Ocean Beach.",src:GR},
-   {x:1967,y:2043,t:"pin",txt:"A veces en la puerta de The Vault Night Club, en Downtown.",src:PS},
-   {x:2410,y:1860,t:"pin",txt:"A veces en Atlantic Ave, Vice Beach.",src:PS}]},
- {id:"jubilee",name:"Buckingham Jubilee",color:"--c2",tag:"Al azar en zonas de lujo",spots:[
-   {x:1810,y:1500,t:"pin",txt:"Urbanización del noroeste de Belville: garaje junto a la primera casa del lado sur al entrar. A veces también aparcado delante.",src:GH,best:true},
-   {x:800,y:2035,t:"area",r:95,txt:"Aparcado en las casas de la zona rica de Capri.",src:GR},
-   {x:2150,y:1810,t:"area",r:60,txt:"Delante de las mansiones de Rialto Islands.",src:PS},
-   {x:2207,y:1975,t:"area",r:45,txt:"Entradas de las casas de Starfish Island.",src:PS}]},
- {id:"banshee",name:"Bravado Banshee",color:"--c3",tag:"Al azar",spots:[
-   {x:830,y:2080,t:"area",r:95,txt:"Casas y aparcamientos de la zona rica de Capri.",src:GR+" y "+GH,best:true},
-   {x:1795,y:2465,t:"pin",txt:"Sunrise Premium Autos, al lado del alquiler de Übermacht, en Southside.",src:GH},
-   {t:"none",txt:"Otra guía dice que Randy te lo encarga más adelante: si no aparece, sigue jugando y te escribirá.",src:PS}]},
- {id:"thrax",name:"Truffade Thrax",color:"--c4",tag:"Coche final de la lista",spots:[
-   {x:2417,y:2283,t:"pin",txt:"Dalton Island Club, en Dalton Island, al sureste de Vice City, frente al Spa Spendido. Se llega en ferri o desde Gloriana Key.",src:PS,best:true},
-   {t:"none",txt:"Se activa cuando entregas todos los demás. Tiene guardias: róbalo sin llamar la atención.",src:PS}]},
+ {id:"jugular",name:"Ocelot Jugular",color:"--c1",tag:"Lugar casi fijo",tagEn:"Almost fixed spot",spots:[
+   {x:1830,y:1548,t:"pin",txt:"Garaje en Belville, al norte del Druthers State Bank, cerca del edificio Cellerica (Chastity Ave).",en:"Garage in Belville, north of Druthers State Bank, near the Cellerica building (Chastity Ave).",src:PS,best:true},
+   {x:2415,y:1965,t:"pin",txt:"Delante de la tienda BITE, junto a Easy Electronics, al norte de Ocean Beach.",en:"Outside the BITE shop, next to Easy Electronics, north of Ocean Beach.",src:GR},
+   {x:1967,y:2043,t:"pin",txt:"A veces en la puerta de The Vault Night Club, en Downtown.",en:"Sometimes outside The Vault Night Club, Downtown.",src:PS},
+   {x:2410,y:1860,t:"pin",txt:"A veces en Atlantic Ave, Vice Beach.",en:"Sometimes on Atlantic Ave, Vice Beach.",src:PS}]},
+ {id:"jubilee",name:"Buckingham Jubilee",color:"--c2",tag:"Al azar en zonas de lujo",tagEn:"Random in upscale areas",spots:[
+   {x:1810,y:1500,t:"pin",txt:"Urbanización del noroeste de Belville: garaje junto a la primera casa del lado sur al entrar. A veces también aparcado delante.",en:"Northwest Belville housing complex: garage next to the first house on the south side as you enter. Sometimes also parked out front.",src:GH,best:true},
+   {x:800,y:2035,t:"area",r:95,txt:"Aparcado en las casas de la zona rica de Capri.",en:"Parked at houses in the wealthy part of Capri.",src:GR},
+   {x:2150,y:1810,t:"area",r:60,txt:"Delante de las mansiones de Rialto Islands.",en:"Outside the mansions on the Rialto Islands.",src:PS},
+   {x:2207,y:1975,t:"area",r:45,txt:"Entradas de las casas de Starfish Island.",en:"House driveways on Starfish Island.",src:PS}]},
+ {id:"banshee",name:"Bravado Banshee",color:"--c3",tag:"Al azar",tagEn:"Random",spots:[
+   {x:830,y:2080,t:"area",r:95,txt:"Casas y aparcamientos de la zona rica de Capri.",en:"Houses and parking lots in the wealthy part of Capri.",src:GR+" & "+GH,best:true},
+   {x:1795,y:2465,t:"pin",txt:"Sunrise Premium Autos, al lado del alquiler de Übermacht, en Southside.",en:"Sunrise Premium Autos, next to the Übermacht rental in Southside.",src:GH},
+   {t:"none",txt:"Otra guía dice que Randy te lo encarga más adelante: si no aparece, sigue jugando y te escribirá.",en:"Another guide says Randy asks for it later: if it doesn't show up, keep playing and he'll text you.",src:PS}]},
+ {id:"thrax",name:"Truffade Thrax",color:"--c4",tag:"Coche final de la lista",tagEn:"Final car on the list",spots:[
+   {x:2417,y:2283,t:"pin",txt:"Dalton Island Club, en Dalton Island, al sureste de Vice City, frente al Spa Spendido. Se llega en ferri o desde Gloriana Key.",en:"Dalton Island Club on Dalton Island, southeast of Vice City, opposite Spa Spendido. Reach it by ferry or from Gloriana Key.",src:PS,best:true},
+   {t:"none",txt:"Se activa cuando entregas todos los demás. Tiene guardias: róbalo sin llamar la atención.",en:"Unlocks once you deliver all the others. It's guarded: steal it without drawing attention.",src:PS}]},
  {id:"paragon",name:"Ascot Paragon",spots:[
-   {x:2425,y:1985,t:"pin",txt:"Delante del bar Banana Hole, en primera línea de Ocean Beach.",src:GH,best:true},
-   {x:1845,y:2548,t:"pin",txt:"Casa del sur de Peacock Estates.",src:GH},
-   {x:800,y:2035,t:"area",r:95,txt:"Casas de la zona rica de Capri.",src:GR}]},
+   {x:2425,y:1985,t:"pin",txt:"Delante del bar Banana Hole, en primera línea de Ocean Beach.",en:"Outside the Banana Hole bar on the Ocean Beach seafront.",src:GH,best:true},
+   {x:1845,y:2548,t:"pin",txt:"Casa del sur de Peacock Estates.",en:"House in southern Peacock Estates.",src:GH},
+   {x:800,y:2035,t:"area",r:95,txt:"Casas de la zona rica de Capri.",en:"Houses in the wealthy part of Capri.",src:GR}]},
  {id:"itali",name:"Grotti Itali RSX",spots:[
-   {x:2175,y:1862,t:"pin",txt:"Casa más al norte de Vespucci Island: rompe la puerta del garaje tras las verjas de madera.",src:GH,best:true},
-   {x:2010,y:1820,t:"pin",txt:"Concesionario Status Auto Imports, Bayside.",src:PS},
-   {...CAPRI_N,txt:"Casas del norte de Capri.",src:GR+" y "+PS}]},
+   {x:2175,y:1862,t:"pin",txt:"Casa más al norte de Vespucci Island: rompe la puerta del garaje tras las verjas de madera.",en:"Northernmost house on Vespucci Island: break the garage door behind the wooden gates.",src:GH,best:true},
+   {x:2010,y:1820,t:"pin",txt:"Concesionario Status Auto Imports, Bayside.",en:"Status Auto Imports dealership, Bayside.",src:PS},
+   {...CAPRI_N,txt:"Casas del norte de Capri.",en:"Houses in northern Capri.",src:GR+" & "+PS}]},
  {id:"cypher",name:"Übermacht Cypher",spots:[
-   {x:2420,y:1998,t:"pin",txt:"Delante del restaurante Cirque de Cuisine, Ocean Beach.",src:GR,best:true},
-   {x:1790,y:2458,t:"pin",txt:"Alquiler de coches Übermacht, noreste de Southside.",src:GH}]},
+   {x:2420,y:1998,t:"pin",txt:"Delante del restaurante Cirque de Cuisine, Ocean Beach.",en:"Outside the Cirque de Cuisine restaurant, Ocean Beach.",src:GR,best:true},
+   {x:1790,y:2458,t:"pin",txt:"Alquiler de coches Übermacht, noreste de Southside.",en:"Übermacht car rental, northeast Southside.",src:GH}]},
  {id:"tempesta",name:"Pegassi Tempesta",spots:[
-   {x:2345,y:1650,t:"pin",txt:"Aparcamiento dentro del centro comercial del este de Washington Island; sube la rampa.",src:GH,best:true},
-   {x:800,y:2035,t:"area",r:95,txt:"Casas de la zona rica de Capri.",src:GR}]},
+   {x:2345,y:1650,t:"pin",txt:"Aparcamiento dentro del centro comercial del este de Washington Island; sube la rampa.",en:"Parking inside the shopping center on eastern Washington Island; go up the ramp.",src:GH,best:true},
+   {x:800,y:2035,t:"area",r:95,txt:"Casas de la zona rica de Capri.",en:"Houses in the wealthy part of Capri.",src:GR}]},
  {id:"toros",name:"Pegassi Toros",spots:[
-   {x:875,y:1962,t:"pin",txt:"Casa de la punta noreste de Capri, junto a un coche rojo delante de un garaje.",src:GH,best:true},
-   {x:2040,y:1800,t:"pin",txt:"Pegassi Residences, Bayside Dr.",src:PS},
-   {x:1374,y:1080,t:"area",r:80,txt:"Bar del viñedo Paradise Wines, North Kelly County (posición aproximada).",src:PS}]},
+   {x:875,y:1962,t:"pin",txt:"Casa de la punta noreste de Capri, junto a un coche rojo delante de un garaje.",en:"House at the northeast tip of Capri, next to a red car outside a garage.",src:GH,best:true},
+   {x:2040,y:1800,t:"pin",txt:"Pegassi Residences, Bayside Dr.",en:"Pegassi Residences, Bayside Dr.",src:PS},
+   {x:1374,y:1080,t:"area",r:80,txt:"Bar del viñedo Paradise Wines, North Kelly County (posición aproximada).",en:"Paradise Wines vineyard bar, North Kelly County (approximate position).",src:PS}]},
  {id:"hellfire",name:"Bravado Gauntlet Hellfire",spots:[
-   {x:1625,y:2660,t:"pin",txt:"Desguace M7 al este del Boone Speedway (Galerina St), Hamlet: al fondo, dentro de un contenedor rojo. Entra por la derecha.",src:PS,best:true},
-   {x:2415,y:2008,t:"pin",txt:"Aparcamiento del bar Fin and Farm, Ocean Beach.",src:GH}]},
+   {x:1625,y:2660,t:"pin",txt:"Desguace M7 al este del Boone Speedway (Galerina St), Hamlet: al fondo, dentro de un contenedor rojo. Entra por la derecha.",en:"M7 junkyard east of Boone Speedway (Galerina St), Hamlet: at the back, inside a red container. Go in from the right.",src:PS,best:true},
+   {x:2415,y:2008,t:"pin",txt:"Aparcamiento del bar Fin and Farm, Ocean Beach.",en:"Fin and Farm bar parking lot, Ocean Beach.",src:GH}]},
  {id:"zorrusso",name:"Granforma Zorrusso",spots:[
-   {x:2408,y:2012,t:"pin",txt:"Aparcamiento de los apartamentos Hataway, Ocean Beach. Es el primer encargo de Randy.",src:OL,best:true}]},
+   {x:2408,y:2012,t:"pin",txt:"Aparcamiento de los apartamentos Hataway, Ocean Beach. Es el primer encargo de Randy.",en:"Hataway Apartments parking lot, Ocean Beach. It's Randy's first job.",src:OL,best:true}]},
  {id:"furia",name:"Piccia Furia",spots:[
-   {x:1852,y:2525,t:"pin",txt:"Mansión de Palladia Ln, Peacock Estates: entra al garaje por el camino entre los setos.",src:PS,best:true},
-   {x:2225,y:1958,t:"pin",txt:"Mansión grande del noreste de Starfish Island.",src:GH}]},
+   {x:1852,y:2525,t:"pin",txt:"Mansión de Palladia Ln, Peacock Estates: entra al garaje por el camino entre los setos.",en:"Mansion on Palladia Ln, Peacock Estates: reach the garage through the path between the hedges.",src:PS,best:true},
+   {x:2225,y:1958,t:"pin",txt:"Mansión grande del noreste de Starfish Island.",en:"Large mansion in northeast Starfish Island.",src:GH}]},
  {id:"coquette",name:"Invetero Coquette D10",spots:[
-   {x:2172,y:2048,t:"pin",txt:"Waxman Island. Randy te manda la ubicación.",src:GH+" y "+OL,best:true}]},
+   {x:2172,y:2048,t:"pin",txt:"Waxman Island. Randy te manda la ubicación.",en:"Waxman Island. Randy sends you the location.",src:GH+" & "+OL,best:true}]},
  {id:"growler",name:"Pfister Growler",spots:[
-   {x:2412,y:1975,t:"pin",txt:"Al lado del restaurante Mrs B's, Ocean Beach.",src:GH,best:true},
-   {x:2400,y:1880,t:"area",r:70,txt:"Aparcamientos de varias plantas de Vice Beach.",src:PS},
-   {...CAPRI_N,txt:"Norte de Capri.",src:PS}]},
+   {x:2412,y:1975,t:"pin",txt:"Al lado del restaurante Mrs B's, Ocean Beach.",en:"Next to Mrs B's restaurant, Ocean Beach.",src:GH,best:true},
+   {x:2400,y:1880,t:"area",r:70,txt:"Aparcamientos de varias plantas de Vice Beach.",en:"Multi-storey car parks in Vice Beach.",src:PS},
+   {...CAPRI_N,txt:"Norte de Capri.",en:"Northern Capri.",src:PS}]},
  {id:"windsor",name:"Buckingham Windsor Drop",spots:[
-   {x:2010,y:1820,t:"pin",txt:"Status Auto Imports (Caledonia Blvd, Bayside): entra, gira a la derecha y ve al fondo de la exposición.",src:PS,best:true},
-   {x:2430,y:1705,t:"pin",txt:"Y Hotel, Washington Beach.",src:PS}]},
+   {x:2010,y:1820,t:"pin",txt:"Status Auto Imports (Caledonia Blvd, Bayside): entra, gira a la derecha y ve al fondo de la exposición.",en:"Status Auto Imports (Caledonia Blvd, Bayside): go in, turn right and head to the back of the showroom.",src:PS,best:true},
+   {x:2430,y:1705,t:"pin",txt:"Y Hotel, Washington Beach.",en:"Y Hotel, Washington Beach.",src:PS}]},
  {id:"carbonizzare",name:"Grotti Carbonizzare",spots:[
-   {...CAPRI_N,txt:"Aparcamientos del norte de Capri.",src:GR,best:true},
-   {x:1845,y:2548,t:"pin",txt:"Casa del sur de Peacock Estates.",src:GH}]},
+   {...CAPRI_N,txt:"Aparcamientos del norte de Capri.",en:"Parking lots in northern Capri.",src:GR,best:true},
+   {x:1845,y:2548,t:"pin",txt:"Casa del sur de Peacock Estates.",en:"House in southern Peacock Estates.",src:GH}]},
  {id:"infernus",name:"'96 Pegassi Infernus",spots:[
-   {x:1957,y:1908,t:"pin",txt:"Garaje de la comisaría de Crosstown (NW 9th St), planta 7: plataforma elevadora hasta la 4.ª y escaleras.",src:PS+" y "+GH,best:true}]},
+   {x:1957,y:1908,t:"pin",txt:"Garaje de la comisaría de Crosstown (NW 9th St), planta 7: plataforma elevadora hasta la 4.ª y escaleras.",en:"Crosstown police station garage (NW 9th St), level 7: scissor lift to the 4th floor, then the stairs.",src:PS+" & "+GH,best:true}]},
  {id:"baller",name:"Gallivanter Baller ST-D",spots:[
-   {x:1770,y:2500,t:"pin",txt:"Concesionario Gallivanter, El Joven Blvd, Southside.",src:PS,best:true},
-   {x:1805,y:2522,t:"pin",txt:"Explanada de la fábrica Gallivanter, sureste de Southside.",src:GH},
-   {x:2200,y:1985,t:"pin",txt:"Garaje de Starfish Island.",src:GH}]},
+   {x:1770,y:2500,t:"pin",txt:"Concesionario Gallivanter, El Joven Blvd, Southside.",en:"Gallivanter dealership, El Joven Blvd, Southside.",src:PS,best:true},
+   {x:1805,y:2522,t:"pin",txt:"Explanada de la fábrica Gallivanter, sureste de Southside.",en:"Gallivanter factory lot, southeast Southside.",src:GH},
+   {x:2200,y:1985,t:"pin",txt:"Garaje de Starfish Island.",en:"Garage on Starfish Island.",src:GH}]},
  {id:"dubsta",name:"Benefactor Dubsta",spots:[
-   {x:2010,y:1820,t:"pin",txt:"Status Auto Imports, oeste de Bayside.",src:GH,best:true},
-   {x:1988,y:2028,t:"pin",txt:"Frente al club NINE1NINE (NE 7th St), Downtown.",src:PS}]},
+   {x:2010,y:1820,t:"pin",txt:"Status Auto Imports, oeste de Bayside.",en:"Status Auto Imports, western Bayside.",src:GH,best:true},
+   {x:1988,y:2028,t:"pin",txt:"Frente al club NINE1NINE (NE 7th St), Downtown.",en:"Opposite the NINE1NINE club (NE 7th St), Downtown.",src:PS}]},
  {id:"neon",name:"Pfister Neon",spots:[
-   {x:2418,y:1990,t:"pin",txt:"Aparcamiento del Dominion Hotel, Ocean Beach.",src:GH,best:true},
-   {...CAPRI_N,txt:"Casas de la punta norte de Capri.",src:GH},
-   {x:1840,y:2530,t:"area",r:55,txt:"Mansiones de Peacock Estates.",src:PS}]},
+   {x:2418,y:1990,t:"pin",txt:"Aparcamiento del Dominion Hotel, Ocean Beach.",en:"Dominion Hotel parking lot, Ocean Beach.",src:GH,best:true},
+   {...CAPRI_N,txt:"Casas de la punta norte de Capri.",en:"Houses at the northern tip of Capri.",src:GH},
+   {x:1840,y:2530,t:"area",r:55,txt:"Mansiones de Peacock Estates.",en:"Peacock Estates mansions.",src:PS}]},
  {id:"vitello",name:"Pegassi Vitello",spots:[
-   {x:2110,y:1235,t:"pin",txt:"Villa de Flamingo Pkwy, Waning Sands: el garaje más cercano a la casa, a la derecha.",src:PS,best:true},
-   {x:1845,y:2548,t:"pin",txt:"Casa del sur de Peacock Estates.",src:GH}]},
+   {x:2110,y:1235,t:"pin",txt:"Villa de Flamingo Pkwy, Waning Sands: el garaje más cercano a la casa, a la derecha.",en:"Villa on Flamingo Pkwy, Waning Sands: the garage closest to the house, on the right.",src:PS,best:true},
+   {x:1845,y:2548,t:"pin",txt:"Casa del sur de Peacock Estates.",en:"House in southern Peacock Estates.",src:GH}]},
  {id:"mamba",name:"Declasse Mamba GT",spots:[
-   {x:2175,y:1603,t:"pin",txt:"Mansión vigilada en Leaf Links, Vice Beach. La llave está dentro.",src:PS+" y "+GH,best:true}]}
+   {x:2175,y:1603,t:"pin",txt:"Mansión vigilada en Leaf Links, Vice Beach. La llave está dentro.",en:"Guarded mansion in Leaf Links, Vice Beach. The key is inside.",src:PS+" & "+GH,best:true}]}
 ];
 const PENDING_START=["jugular","jubilee","banshee","thrax"];
 
 /* ---------- Pagos de Randy ----------
    ok = cifra publicada para ese coche; est = rango general de las guías; pj = lo que cobró un jugador (con daños) */
-const EST={amt:"~30.000 $ o más",kind:"est",note:"en buen estado"};
-const PAY={
-  zorrusso:{amt:"21.250 $",kind:"ok",bonus:"+10.000 $ si está intacto",note:"otra guía dice 21.225 $"},
-  itali:{...EST,bonus:"+10.000 $ si está intacto"},
-  toros:{...EST,bonus:"+7.500 $ si está intacto"},
-  vitello:{amt:"15.265 $",kind:"pj",note:"cobrado con daños; intacto paga más"},
-  infernus:{amt:"15.165 $",kind:"pj",note:"cobrado con daños; intacto paga más"},
-  thrax:{amt:"Sin dato",kind:"none",note:"es el encargo final"},
-  mamba:{amt:"Sin dato",kind:"none",note:"es un encargo aparte"}
+const PAYK={zorrusso:"ok",vitello:"pj",infernus:"pj",thrax:"none",mamba:"none"};
+const PAYD={
+  es:{est:{amt:"~30.000 $ o más",note:"en buen estado"},
+      zorrusso:{amt:"21.250 $",bonus:"+10.000 $ si está intacto",note:"otra guía dice 21.225 $"},
+      itali:{bonus:"+10.000 $ si está intacto"},toros:{bonus:"+7.500 $ si está intacto"},
+      vitello:{amt:"15.265 $",note:"cobrado con daños; intacto paga más"},
+      infernus:{amt:"15.165 $",note:"cobrado con daños; intacto paga más"},
+      thrax:{amt:"Sin dato",note:"es el encargo final"},mamba:{amt:"Sin dato",note:"es un encargo aparte"}},
+  en:{est:{amt:"~$30,000+",note:"in good condition"},
+      zorrusso:{amt:"$21,250",bonus:"+$10,000 if undamaged",note:"another guide says $21,225"},
+      itali:{bonus:"+$10,000 if undamaged"},toros:{bonus:"+$7,500 if undamaged"},
+      vitello:{amt:"$15,265",note:"paid with damage; undamaged pays more"},
+      infernus:{amt:"$15,165",note:"paid with damage; undamaged pays more"},
+      thrax:{amt:"No data",note:"it's the final job"},mamba:{amt:"No data",note:"it's a separate job"}}
 };
-const KIND={ok:"Confirmado",est:"Estimado",pj:"Jugador",none:"Sin publicar"};
-const fmt=n=>n.toLocaleString("es-ES")+" $";
+const fmt=n=>lang==="en"?"$"+n.toLocaleString("en-US"):n.toLocaleString("es-ES")+" $";
 function payHTML(car){
-  const p=PAY[car.id]||EST;
-  return `<div class="pay"><span class="amt">${p.amt}</span><span class="pk ${p.kind}">${KIND[p.kind]}</span>
-    ${p.bonus?`<span class="bonus">${p.bonus}</span>`:""}${p.note?`<span class="pnote">${p.note}</span>`:""}
-    <label class="paid">Te pagó <input type="text" inputmode="numeric" id="paid-${car.id}" placeholder="—" value="${paid[car.id]?fmt(paid[car.id]):""}" aria-label="Lo que te pagó Randy por ${car.name}"></label></div>`;
+  const L=PAYD[lang], kind=PAYK[car.id]||"est", o=L[car.id]||{};
+  const amt=o.amt||L.est.amt, note=o.note!==undefined?o.note:(kind==="est"?L.est.note:""), bonus=o.bonus;
+  return `<div class="pay"><span class="amt">${amt}</span><span class="pk ${kind}">${t("kind_"+kind)}</span>
+    ${bonus?`<span class="bonus">${bonus}</span>`:""}${note?`<span class="pnote">${note}</span>`:""}
+    <label class="paid">${t("paid")} <input type="text" inputmode="numeric" id="paid-${car.id}" placeholder="—" value="${paid[car.id]?fmt(paid[car.id]):""}" aria-label="${t("paidAria",car.name)}"></label></div>`;
 }
 function totalPaid(){
   const t=Object.values(paid).reduce((a,b)=>a+b,0);
-  $("paid-total").textContent=t?fmt(t):"0 $";
+  $("paid-total").textContent=fmt(t);
+}
+
+/* ---------- Idioma ---------- */
+const I18N={
+  es:{title:"Lista WANTED de Randy",eyebrow:"GTA VI · Robos · Lista de Randy",h1:"Lista WANTED de Randy",
+    themeAria:"Cambiar entre tema claro y oscuro",langAria:"Idioma",collected:"conseguidos",earned:"cobrados",earnedTitle:"Suma de lo que has apuntado en cada ficha",
+    mapAria:"Mapa",showDone:"Conseguidos",svgAria:"Mapa oficial de Leonida con las ubicaciones de los coches",
+    zin:"Acercar",zout:"Alejar",zfit:"Ver todo Leonida",hPin:"Sitio concreto",hArea:"Aparece al azar en la zona",hDrag:"Arrastra para mover · rueda o pellizco para acercar",
+    search:"Buscar coche o zona…",filter:"Filtrar",fAll:"Todos",fPending:"Te faltan",fDone:"Conseguidos",
+    secPending:"Te faltan",secDone:"Conseguidos",allDone:"Lista completa. ¡Buen trabajo!",noMatch:q=>`Ningún coche coincide con “${q}”.`,noneDone:"Aún no has conseguido ninguno.",
+    best:"más fiable",gotTag:" · conseguido",paid:"Te pagó",paidAria:n=>`Lo que te pagó Randy por ${n}`,mark:n=>`Marcar ${n} como conseguido`,
+    kind_ok:"Confirmado",kind_est:"Estimado",kind_pj:"Jugador",kind_none:"Sin publicar",
+    tips:[["Cómo robarlos","Usa la llave clonada y entrégalos en el garaje de Randy. Casi todos llevan localizador: pierde a la policía antes de llegar."],
+      ["Si no aparece","Muchos salen al azar. Guarda y recarga la partida, o vuelve más tarde, para que cambien los coches aparcados."],
+      ["Cobra más","Randy paga según el estado del coche. Repáralo en la gasolinera de enfrente del taller antes de entregarlo para llevarte el extra por coche intacto. Apunta en cada ficha lo que te pague."],
+      ["Pistas de Randy","Mira Touch Pad › Robberies › Randy's Wish List. Randy manda pistas por mensaje y a veces en Leonida Auto World."]],
+    footer:"Datos de guías publicadas en noviembre de 2026; no coinciden en todo y aún se actualizan. Fuentes:",footer2:"Mapa: Rockstar Games. Fotos:",footer3:"Proyecto de fans sin relación con Rockstar Games."},
+  en:{title:"Randy's WANTED List",eyebrow:"GTA VI · Robberies · Randy's Wish List",h1:"Randy's WANTED List",
+    themeAria:"Toggle light and dark theme",langAria:"Language",collected:"collected",earned:"earned",earnedTitle:"Sum of what you've logged on each card",
+    mapAria:"Map",showDone:"Collected",svgAria:"Official map of Leonida with the car locations",
+    zin:"Zoom in",zout:"Zoom out",zfit:"Show all of Leonida",hPin:"Exact spot",hArea:"Random spawn in the area",hDrag:"Drag to move · scroll or pinch to zoom",
+    search:"Search car or area…",filter:"Filter",fAll:"All",fPending:"Missing",fDone:"Collected",
+    secPending:"Still missing",secDone:"Collected",allDone:"List complete. Nice work!",noMatch:q=>`No car matches “${q}”.`,noneDone:"You haven't collected any yet.",
+    best:"most reliable",gotTag:" · collected",paid:"Paid",paidAria:n=>`What Randy paid you for ${n}`,mark:n=>`Mark ${n} as collected`,
+    kind_ok:"Confirmed",kind_est:"Estimate",kind_pj:"Player",kind_none:"Unpublished",
+    tips:[["How to steal them","Use the cloned key and deliver them to Randy's garage. Almost all of them have a tracker: lose the cops before you arrive."],
+      ["If it doesn't spawn","Many spawn at random. Save and reload, or come back later, to refresh the parked cars."],
+      ["Earn more","Randy pays based on the car's condition. Repair it at the gas station across from the garage before delivering to get the undamaged bonus. Log what he pays you on each card."],
+      ["Randy's hints","Check Touch Pad › Robberies › Randy's Wish List. Randy texts hints and sometimes leaves them at Leonida Auto World."]],
+    footer:"Data from guides published in November 2026; they don't fully agree and are still being updated. Sources:",footer2:"Map: Rockstar Games. Photos:",footer3:"Fan project, not affiliated with Rockstar Games."}
+};
+const langSaved=(()=>{try{return JSON.parse(localStorage.getItem("wanted-lang"))}catch(e){return null}})();
+let lang=langSaved||((navigator.language||"es").toLowerCase().startsWith("es")?"es":"en");
+const t=(k,...a)=>{const v=I18N[lang][k];return typeof v==="function"?v(...a):v};
+const TX=s=>lang==="en"&&s.en?s.en:s.txt;
+const TAG=c=>lang==="en"&&c.tagEn?c.tagEn:c.tag;
+function applyStatic(){
+  document.documentElement.lang=lang; document.title=t("title");
+  document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t(e.dataset.i));
+  document.querySelectorAll("[data-i-aria]").forEach(e=>e.setAttribute("aria-label",t(e.dataset.iAria)));
+  document.querySelectorAll("[data-i-title]").forEach(e=>e.title=t(e.dataset.iTitle));
+  $("q").placeholder=t("search");$("q").setAttribute("aria-label",t("search"));
+  document.querySelectorAll(".tip").forEach((e,i)=>{const [h,b]=t("tips")[i];e.innerHTML=`<b>${h}</b>${b}`});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
+}
+function setLang(l){
+  if(l===lang)return; lang=l; store.set("wanted-lang",l);
+  const w=document.querySelector(".wrap"); w.classList.remove("swap"); void w.offsetWidth; w.classList.add("swap");
+  hidePop(); applyStatic(); refresh(true); moveInd();
 }
 
 /* ---------- Estado ---------- */
@@ -520,7 +584,7 @@ function stateMarkers(){
 }
 function showPop(car,s){
   const p=$("pop"); p.style.setProperty("--cc",colorOf(car));
-  p.innerHTML=`<img src="cars/${car.id}.jpg" alt=""><b><i></i>${car.name}</b>${s.txt}<br><small>${s.src}${done[car.id]?" · conseguido":""}</small>`;
+  p.innerHTML=`<img src="cars/${car.id}.jpg" alt=""><b><i></i>${car.name}</b>${TX(s)}<br><small>${s.src}${done[car.id]?t("gotTag"):""}</small>`;
   popAt=s; p.classList.add("show"); placePop();
 }
 function hidePop(){popAt=null;$("pop").classList.remove("show")}
@@ -541,11 +605,11 @@ function card(car,i){
   let n=0;
   d.innerHTML=`<div class="photo"><img src="cars/${car.id}.jpg" alt="${car.name}" loading="lazy" decoding="async" width="640" height="360"></div>
     <div class="car-top"><img class="thumb" src="cars/${car.id}.jpg" alt="" loading="lazy" decoding="async" width="64" height="36"><span class="dot"></span><h3 class="name">${car.name}</h3>
-    <button type="button" class="check" aria-pressed="${!!done[car.id]}" aria-label="Marcar ${car.name} como conseguido">${CHECK}</button></div>
-    ${car.tag?`<div class="tag">${car.tag}</div>`:""}
+    <button type="button" class="check" aria-pressed="${!!done[car.id]}" aria-label="${t("mark",car.name)}">${CHECK}</button></div>
+    ${car.tag?`<div class="tag">${TAG(car)}</div>`:""}
     ${payHTML(car)}
     <div class="more"><div><ol class="spots">${car.spots.map((s,si)=>`<li ${s.t!=="none"?`data-s="${si}"`:""}><span class="n ${s.t==="area"?"a":s.t==="none"?"i":""}">${s.t==="none"?"i":++n}</span>
-      <div>${s.txt}${s.best?'<span class="best">más fiable</span>':""} <span class="src">· ${s.src}</span></div></li>`).join("")}</ol></div></div>`;
+      <div>${TX(s)}${s.best?`<span class="best">${t("best")}</span>`:""} <span class="src">· ${s.src}</span></div></li>`).join("")}</ol></div></div>`;
   d.querySelectorAll("img").forEach(im=>{const ok=()=>im.classList.add("ld");im.complete?ok():im.addEventListener("load",ok);im.addEventListener("error",()=>im.closest(".photo,.thumb")?.remove?.()||im.remove())});
   const pin=d.querySelector(".paid input");
   ["click","keydown","pointerdown"].forEach(ev=>pin.addEventListener(ev,e=>e.stopPropagation()));
@@ -587,7 +651,7 @@ function scrollCard(id){
 }
 function renderList(){
   const L=$("list"), q=norm(query);
-  const match=c=>!q||norm(c.name+" "+c.spots.map(s=>s.txt).join(" ")).includes(q);
+  const match=c=>!q||norm(c.name+" "+c.spots.map(s=>s.txt+" "+(s.en||"")).join(" ")).includes(q);
   const pend=CARS.filter(c=>!done[c.id]&&match(c)), got=CARS.filter(c=>done[c.id]&&match(c));
   const parts=[]; let i=0;
   const section=(title,cars,cls)=>{
@@ -596,9 +660,9 @@ function renderList(){
     cars.forEach(c=>box.append(card(c,i++)));
     parts.push(h,box);
   };
-  if(filter!=="done"){pend.length?section("Te faltan",pend,""):filter==="pending"&&!q&&parts.push(msg("Lista completa. ¡Buen trabajo!"))}
-  if(filter!=="pending"&&got.length)section("Conseguidos",got,"compact");
-  if(!parts.length)parts.push(msg(q?`Ningún coche coincide con “${query}”.`:"Aún no has conseguido ninguno."));
+  if(filter!=="done"){pend.length?section(t("secPending"),pend,""):filter==="pending"&&!q&&parts.push(msg(t("allDone")))}
+  if(filter!=="pending"&&got.length)section(t("secDone"),got,"compact");
+  if(!parts.length)parts.push(msg(q?t("noMatch",query):t("noneDone")));
   L.replaceChildren(...parts);
   L.querySelectorAll(".cars").forEach((b,ix)=>b.id=ix===0&&filter!=="done"&&pend.length?"pending":"done");
 }
@@ -638,6 +702,8 @@ $("theme").onclick=()=>{
   const dark=root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
   root.dataset.theme=dark?"light":"dark";store.set("wanted-theme",root.dataset.theme)};
 
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+applyStatic();
 view=clampView(VIEWS.vc);
 refresh(true);setTab("vc");
 document.fonts&&document.fonts.ready.then(moveInd);
